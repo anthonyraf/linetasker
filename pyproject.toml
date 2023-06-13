@@ -16,6 +16,7 @@ rich = "^13.3.5"
 pytest = "^7.3.1"
 ipykernel = "^6.23.0"
 pytest-dependency = "^0.5.1"
+coloredlogs = "^15.0.1"
 
 [build-system]
 requires = ["poetry-core"]
