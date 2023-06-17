@@ -1,3 +1,15 @@
+
+# My files
+.py_tasks.json
+.vscode/
+project_planing.txt
+draft.py
+.envrc
+.linetasker.json
+.py_tasks.json
+
+.ruff_cache/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,4 +139,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-draft.py 
+draft.py

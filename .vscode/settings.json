@@ -1,0 +1,15 @@
+{
+    "python.linting.enabled": false,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,    
+    "terminal.integrated.fontFamily": "Monolisa",
+    "editor.fontLigatures": true,
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "Monolisa",
+    "editor.fontSize": 13.2,
+    "editor.renderWhitespace": "none",
+
+} 
