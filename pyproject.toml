@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "py-tasks"
+name = "linetasker"
 version = "0.1.0"
 description = ""
 authors = ["Anthony <benjaraf006@gmail.com>"]
 readme = "README.md"
-packages = [{include = "py_tasks"}]
+packages = [{include = "linetasker"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -29,14 +29,14 @@ pyupgrade = "^3.6.0"
 
 [tool.ruff]
 line-length = 79
+target-version = 'py310'
 src = ["py_tasks", "tests"]
 
 [tool.black]
 line-length = 79
 target-version = ['py38', 'py39', 'py310', 'py311']
-# ignore draft.py
 exclude = '''draft.py'''
-
+skip-magic-trailing-comma = true
 
 [build-system]
 requires = ["poetry-core"]
