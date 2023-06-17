@@ -32,8 +32,8 @@ jobs:
         
       - name: Run linters
         run: |
-          poetry run black
-          poetry run ruff check.
+          poetry run black .
+          poetry run ruff check .
           poetry run flake8
           poetry run pyupgrade --py310-plus
       
