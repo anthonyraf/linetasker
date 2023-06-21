@@ -1,7 +1,7 @@
 import click
 from linetasker.core import Register
 
-register = Register(".py_tasks.json")
+register = Register(".linetasker")
 
 
 @click.group()

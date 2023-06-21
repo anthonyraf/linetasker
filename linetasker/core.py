@@ -24,15 +24,6 @@ CURRENT_DIR = Path(__file__).parent
 console = Console()
 
 
-class Prettier:
-    def __init__(self):
-        self.console = Console()
-
-    def print(self, task: dict):
-        """"""
-        self.console.rule("[bold magenta]Anthony", style="green")
-
-
 class Register:
     def __init__(self, filename):
         self.filename = filename
@@ -78,22 +69,22 @@ class Register:
             self.cursor += 1
             self.unique_key += 1
 
-    def delete_task(self, id):
-        """Remove task by its id"""
-        if id > self.cursor - 1:
-            raise IndexError(f"There is no task n°{id}")
-
-        if not 0 <= id <= self.cursor - 1:
-            raise Exception(f"Please enter a valid id 0..{self.cursor-1}")
-
+    def rearange_id(self) -> None:
         with self.update_db():
-            from_id: int = id  # From which index to decrement
-            logging.debug(f"Deleted: {self.db_dict['tasks'][id]}")
-            self.db_dict["tasks"].pop(id)  # Remove the task
-            self.cursor -= 1  # Update number of active tasks
-
-            for i in range(from_id, self.cursor):
+            for i in range(self.cursor):
                 self.db_dict["tasks"][i]["id"] = i
+
+    def delete_task(self, *ids, rearange=True) -> None:
+        with self.update_db():
+            for id in ids:
+                if not 0 <= id <= self.cursor - 1:
+                    raise IndexError(f"There is no task n°{id}")
+                self.db_dict["tasks"].pop(id)
+                logging.debug(f"Deleted: {self.db_dict['tasks'][id]}")
+                self.cursor -= 1
+
+        if rearange:
+            self.rearange_id()
 
     def done(self, task_id: int) -> None:
         """Mark as done a task by its id."""
@@ -119,7 +110,15 @@ class Register:
         for task in self.db_dict["tasks"]:
             task_list.add_rows(TaskTemplate(**task))
 
+        logging.debug("CALLED: core.Register.list")
         console.print(task_list.render())
+
+    def clean(self) -> None:
+        with self.update_db():
+            for task in self.db_dict["tasks"]:
+                if task["status"] == Status.DONE:
+                    self.delete_task(task["id"], rearange=False)
+            self.rearange_id()
 
 
 class ConfigFile:
@@ -158,9 +157,3 @@ class ConfigFile:
     def write(self, content: dict[str, Any]):
         with open(self.file_abs_path, "w") as file:
             file.write(json.dumps(content, indent=4))
-
-
-if __name__ == "__main__":
-    r = Register("database")
-
-    r.create_task("kfzjfzfez", 55)
