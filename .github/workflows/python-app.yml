@@ -29,19 +29,18 @@ jobs:
 
       - name: Installer dependencies
         run: poetry install
-        
+
       - name: Run linters
         run: |
           poetry run black .
           poetry run ruff check .
           poetry run flake8
           poetry run pyupgrade --py310-plus
-      
+
       - name: Run pytest
         run: |
           poetry run pytest tests/ -vv
-          
+
       - name: Check poetry config
         run: |
           poetry check
-

@@ -7,6 +7,7 @@ draft.py
 .envrc
 .linetasker.json
 .py_tasks.json
+quick_launcher.py
 
 .ruff_cache/
 
