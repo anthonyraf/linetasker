@@ -33,13 +33,3 @@ class Task:
 
     def to_dict(self) -> dict:
         return asdict(self)
-
-    @staticmethod
-    def change_field_value(db: dict, id_task: int, field: str, value):
-        if db["cursor"] - 1 < id_task:
-            raise IndexError(f"There is no task n°{id_task}")
-
-        if field not in {"id", "task", "priority", "status"}:
-            raise AttributeError(f"There is no field: {field}")
-
-        db["tasks"][id_task][field] = value

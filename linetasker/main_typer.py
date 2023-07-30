@@ -53,7 +53,7 @@ def new(
         typer.Option(
             "--priority",
             "-p",
-            help="set priority of the task",
+            help="Set priority of the task",
             clamp=True,
             min=1,
             max=4,
@@ -89,7 +89,7 @@ def list(
     ] = None  # type: ignore
 ) -> None:
     """List the tasks"""
-    register.list()
+    register.list_tasks()
 
 
 @app.command(rich_help_panel=add)
@@ -101,13 +101,17 @@ def edit(id: int) -> None:
 @app.command(rich_help_panel=add)
 def clean() -> None:
     """Delete all [bold green]done[/] tasks"""
-    pass
+    register.clean()
 
 
 @app.command(rich_help_panel=add)
-def reset() -> None:
+def reset(
+    bypass_flag: Annotated[
+        bool, typer.Option("--yes", "-y", help="Bypass confirmation prompt")
+    ] = False
+) -> None:
     """Delete [bold red]all[/] tasks"""
-    pass
+    register.reset(bypass_flag)
 
 
 if __name__ == "__main__":
