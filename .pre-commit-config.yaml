@@ -32,11 +32,11 @@ repos:
     hooks:
         -   id: pytest-check
             name: pytest-check
-            entry: pytest
+            entry: poetry
             language: system
             always_run: true
             pass_filenames: false
-            args: [tests/, -vv]
+            args: [run, pytest, tests/, -vv]
 
 -   repo: local
     hooks:
