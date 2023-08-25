@@ -8,6 +8,11 @@ from linetasker.task import Status
 console = Console()
 
 
+class DetailedTask:
+    def __init__(self) -> None:
+        pass
+
+
 class TaskTemplate:
     def __init__(
         self,

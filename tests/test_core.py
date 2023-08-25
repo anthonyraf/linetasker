@@ -51,7 +51,7 @@ class TestConfigFile:
     def test_default_file_template(
         self, config_file: ConfigFile, filename: str
     ):
-        default_json = {"tasks": [], "cursor": 0, "cumul_count": 0}
+        default_json = {"tasks": []}
 
         with open(self.CURRENT_DIR / Path(filename)) as target:
             assert target.read() == json.dumps(default_json, indent=4)
@@ -63,11 +63,11 @@ class TestConfigFile:
         content: dict = config_file.read()
 
         assert isinstance(content, dict)
-        assert content == {"tasks": [], "cursor": 0, "cumul_count": 0}
+        assert content == {"tasks": []}
 
     @pytest.mark.dependency(depends=["read_json"])
     def test_write_json(self, config_file: ConfigFile, filename: str):
-        test_dict = {"tasks": list(range(10)), "cursor": 10, "cumul_count": 10}
+        test_dict = {"tasks": list(range(10))}
 
         config_file.write(test_dict)
 
