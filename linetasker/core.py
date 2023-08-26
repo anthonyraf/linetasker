@@ -6,8 +6,8 @@ from rich.prompt import Confirm
 from pathlib import Path
 from contextlib import contextmanager
 
-from .task import Task, Status
-from .utils.prettier import TaskTemplate, TaskList
+from linetasker.task import Task, Status
+from linetasker.utils.prettier import TaskTemplate, TaskList
 
 
 import logging
