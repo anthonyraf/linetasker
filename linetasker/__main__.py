@@ -48,6 +48,12 @@ add = "Additional"
 @app.command(rich_help_panel=bo)
 def new(
     task: str,
+    tags: Annotated[
+        list[str],
+        typer.Option(
+            "--tags", "-t", help="Add tags to the task", show_default=False
+        ),
+    ] = [],
     priority: Annotated[
         int,
         typer.Option(
@@ -61,7 +67,7 @@ def new(
     ] = 1,
 ) -> None:
     """Create new task"""
-    register.create_task(task, priority)
+    register.create_task(task, priority, tags)
 
 
 @app.command(rich_help_panel=bo, name="del")

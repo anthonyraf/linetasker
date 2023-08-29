@@ -47,12 +47,12 @@ class Register:
         finally:
             self.db.write(self.db_dict)
 
-    def create_task(self, description, priority):
+    def create_task(self, description, priority, tags: list[str]):
         """Create new task in the database"""
         with self.update_db():
             id = self.cursor
 
-            new_task = Task(id, description, priority)
+            new_task = Task(id, description, priority, tags=tags)
 
             self.db_dict["tasks"].append(ntd := new_task.__dict__)
             logging.debug(f"Added: {ntd}")
@@ -120,7 +120,9 @@ class Register:
                 return
         with self.update_db():
             self.db_dict["tasks"] = []
-        console.print(f"[green]{n_tasks} tasks deleted successfully ![/green]")
+        console.print(
+            f"[green]{n_tasks} task(s) deleted successfully ![/green]"
+        )
 
 
 class ConfigFile:
