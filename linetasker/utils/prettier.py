@@ -40,10 +40,12 @@ class TaskTemplate:
 
     def format_tags(self, tags: list[str]) -> str:
         _tags: list[str] = []
-        for tag in tags:
-            _tags.append(f"[reverse] {tag} [/reverse]")
+        for i in range(len(tags) - 1):
+            _tags.append(f"[bold]{tags[i]}, [/bold]")
 
-        return " ".join(_tags)
+        _tags.append(f"[bold]{tags[-1]}[/bold]")
+
+        return "".join(_tags)
 
 
 class TaskList:
