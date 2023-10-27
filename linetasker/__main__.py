@@ -53,7 +53,7 @@ def new(
         typer.Option(
             "--tags", "-t", help="Add tags to the task", show_default=False
         ),
-    ] = [],
+    ] = None,
     priority: Annotated[
         int,
         typer.Option(
@@ -88,20 +88,21 @@ def undone(id: int) -> None:
     register.undone(id)
 
 
+# pylint: disable=redefined-builtin
 @app.command(rich_help_panel=add)
 def list(
     n: Annotated[
         int, typer.Option("-n", help="Number of tasks to show")
-    ] = None  # type: ignore
+    ] = None
 ) -> None:
     """List the tasks"""
-    register.list_tasks()
+    register.list_tasks(n=n)
 
 
+# TODO
 @app.command(rich_help_panel=add)
 def edit(id: int) -> None:
     """Edit existing task"""
-    pass
 
 
 @app.command(rich_help_panel=add)
