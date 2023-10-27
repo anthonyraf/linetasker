@@ -54,21 +54,19 @@ class TaskTemplate:
 class TaskList:
     def __init__(self) -> None:
         self.table = Table(box=box.SIMPLE, leading=1)
-
-        self.columns = {
-            "[bold yellow]ID[/bold yellow]": dict(
-                justify="left", width=None, style="yellow"
-            ),
-            "[blue]Created[/blue]": dict(
-                justify="left", width=None, style="blue"
-            ),
-            "Description": dict(justify="left", max_width=40),
-            "Priority": dict(justify="left", width=None),
-            "Tags": dict(justify="left", max_width=20),
-            "Status": dict(justify="left", width=None),
-        }
-        for column, args in self.columns.items():
-            self.table.add_column(column, **args)
+        self.table.add_column(
+            "[bold yellow]ID[/bold yellow]",
+            justify="left",
+            width=None,
+            style="yellow",
+        )
+        self.table.add_column(
+            "[blue]Created[/blue]", justify="left", width=None, style="blue"
+        )
+        self.table.add_column("Description", justify="left", max_width=40)
+        self.table.add_column("Priority", justify="left", width=None)
+        self.table.add_column("Tags", justify="left", max_width=20)
+        self.table.add_column("Status", justify="left", width=None)
 
     def add_rows(self, *tasks: TaskTemplate) -> None:
         for task in tasks:
