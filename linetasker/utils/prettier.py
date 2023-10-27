@@ -27,7 +27,7 @@ class TaskTemplate:
         self.created = f"{created[0]} {created[1]}"
         self.description = description
         self.priority: str = LevelBar(priority)
-        self.tags = tags
+        self.tags = self.format_tags(tags)
         self.status = self.format_status(status)
 
     def format_status(self, status: str) -> str | None:
@@ -37,6 +37,15 @@ class TaskTemplate:
             return f"[green]{active_char} Active[/green]"
         elif status == Status.DONE:
             return f"[yellow]{done_char} Done[/yellow]"
+
+    def format_tags(self, tags: list[str]) -> str:
+        _tags: list[str] = []
+        for i in range(len(tags) - 1):
+            _tags.append(f"[bold]{tags[i]}, [/bold]")
+
+        _tags.append(f"[bold]{tags[-1]}[/bold]")
+
+        return "".join(_tags)
 
 
 class TaskList:
@@ -52,10 +61,9 @@ class TaskList:
             ),
             "Description": dict(justify="left", max_width=40),
             "Priority": dict(justify="left", width=None),
-            "Tags": dict(justify="left", width=None),
+            "Tags": dict(justify="left", max_width=20),
             "Status": dict(justify="left", width=None),
         }
-
         for column, args in self.columns.items():
             self.table.add_column(column, **args)
 
