@@ -107,7 +107,7 @@ class Register:
         logging.debug("n = %s", n)
         console.print(task_list.render())
 
-    def get_done_tasks(self) -> list[int]:
+    def get_done_tasks_ids(self) -> list[int]:
         """Return a list of the id of all done tasks"""
         done_tasks = []
         for task in self.db_dict["tasks"]:
@@ -116,7 +116,7 @@ class Register:
         return done_tasks
 
     def clean(self) -> None:
-        self.delete_task(*self.get_done_tasks())
+        self.delete_task(*self.get_done_tasks_ids())
 
     def reset(self, bypass_flag: bool) -> None:
         # Confirmation prompt, yes by default
