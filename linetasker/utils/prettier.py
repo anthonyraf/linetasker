@@ -30,7 +30,8 @@ class TaskTemplate:
         self.tags = self.format_tags(tags)
         self.status = self.format_status(status)
 
-    def format_status(self, status: str) -> str | None:
+    @staticmethod
+    def format_status(status: str) -> str | None:
         active_char = "⚙"  # U+2713 CHECK MARK
         done_char = "✔"  # U+2699 GEAR
         if status == Status.ACTIVE:
@@ -38,12 +39,14 @@ class TaskTemplate:
         elif status == Status.DONE:
             return f"[yellow]{done_char} Done[/yellow]"
 
-    def format_tags(self, tags: list[str]) -> str:
+    @staticmethod
+    def format_tags(tags: list[str]) -> str:
         _tags: list[str] = []
-        for i in range(len(tags) - 1):
-            _tags.append(f"[bold]{tags[i]}, [/bold]")
+        if tags:
+            for i in range(len(tags) - 1):
+                _tags.append(f"[bold]{tags[i]}, [/bold]")
 
-        _tags.append(f"[bold]{tags[-1]}[/bold]")
+            _tags.append(f"[bold]{tags[-1]}[/bold]")
 
         return "".join(_tags)
 
