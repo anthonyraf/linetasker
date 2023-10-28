@@ -5,6 +5,7 @@ from typer.core import MarkupMode, TyperGroup
 from typing import Annotated, Any
 from collections.abc import Sequence
 from linetasker.core import Register
+from linetasker.utils.filter import Filter
 
 
 class DisableAutoSort(TyperGroup):
@@ -89,14 +90,21 @@ def undone(id: int) -> None:
 
 
 # pylint: disable=redefined-builtin
-@app.command(rich_help_panel=add)
-def list(
+@app.command(rich_help_panel=add, name="list")
+def _list(
     n: Annotated[
         int, typer.Option("-n", help="Number of tasks to show")
-    ] = None
+    ] = None,
+    tags: Annotated[
+        list[str], typer.Option("-t", help="Filter by tags")
+    ] = None,
 ) -> None:
     """List the tasks"""
-    register.list_tasks(n=n)
+    if tags:
+        _filter = Filter(tags=tags)
+    else:
+        _filter = None
+    register.list_tasks(n=n, _filter=_filter)
 
 
 # TODO

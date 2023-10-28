@@ -9,6 +9,7 @@ from contextlib import contextmanager
 
 from linetasker.task import Task, Status
 from linetasker.utils.prettier import TaskTemplate, TaskList
+from linetasker.utils.filter import Filter
 
 
 import logging
@@ -93,15 +94,23 @@ class Register:
         """Show details about a tasks (creation date, hour, ...)"""
         pass
 
-    def list_tasks(self, n: int | None = None):
+    def list_tasks(self, n: int | None = None, _filter: Filter = None):
         task_list = TaskList()
 
         if n is None or n > len(self.db_dict["tasks"]):
             n = len(self.db_dict["tasks"])
 
-        # Negative n values are already catched up by this range
-        for i in range(n):
-            task_list.add_rows(TaskTemplate(**self.db_dict["tasks"][i]))
+        count = 0
+        if _filter:
+            for task in self.db_dict["tasks"]:
+                if count == n:
+                    break
+                if _filter.is_valid(task=task):
+                    count += 1
+                    task_list.add_rows(TaskTemplate(**task))
+        else:
+            for i in range(n):
+                task_list.add_rows(TaskTemplate(**self.db_dict["tasks"][i]))
 
         logging.debug("CALLED: core.Register.list_tasks %s", "")
         logging.debug("n = %s", n)
