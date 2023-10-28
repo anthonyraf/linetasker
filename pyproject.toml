@@ -38,6 +38,9 @@ target-version = ['py38', 'py39', 'py310', 'py311']
 exclude = '''draft.py'''
 skip-magic-trailing-comma = true
 
+[tool.poetry.scripts]
+linetasker = "linetasker.__main__:app"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

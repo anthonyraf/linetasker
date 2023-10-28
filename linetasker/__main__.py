@@ -5,6 +5,7 @@ from typer.core import MarkupMode, TyperGroup
 from typing import Annotated, Any
 from collections.abc import Sequence
 from linetasker.core import Register
+from linetasker.utils.filter import Filter
 
 
 class DisableAutoSort(TyperGroup):
@@ -48,6 +49,12 @@ add = "Additional"
 @app.command(rich_help_panel=bo)
 def new(
     task: str,
+    tags: Annotated[
+        list[str],
+        typer.Option(
+            "--tags", "-t", help="Add tags to the task", show_default=False
+        ),
+    ] = None,
     priority: Annotated[
         int,
         typer.Option(
@@ -61,7 +68,7 @@ def new(
     ] = 1,
 ) -> None:
     """Create new task"""
-    register.create_task(task, priority)
+    register.create_task(task, priority, tags)
 
 
 @app.command(rich_help_panel=bo, name="del")
@@ -82,20 +89,28 @@ def undone(id: int) -> None:
     register.undone(id)
 
 
-@app.command(rich_help_panel=add)
-def list(
+# pylint: disable=redefined-builtin
+@app.command(rich_help_panel=add, name="list")
+def _list(
     n: Annotated[
         int, typer.Option("-n", help="Number of tasks to show")
-    ] = None  # type: ignore
+    ] = None,
+    tags: Annotated[
+        list[str], typer.Option("-t", help="Filter by tags")
+    ] = None,
 ) -> None:
     """List the tasks"""
-    register.list_tasks()
+    if tags:
+        _filter = Filter(tags=tags)
+    else:
+        _filter = None
+    register.list_tasks(n=n, _filter=_filter)
 
 
+# TODO
 @app.command(rich_help_panel=add)
 def edit(id: int) -> None:
     """Edit existing task"""
-    pass
 
 
 @app.command(rich_help_panel=add)

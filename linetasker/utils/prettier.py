@@ -27,10 +27,11 @@ class TaskTemplate:
         self.created = f"{created[0]} {created[1]}"
         self.description = description
         self.priority: str = LevelBar(priority)
-        self.tags = tags
+        self.tags = self.format_tags(tags)
         self.status = self.format_status(status)
 
-    def format_status(self, status: str) -> str | None:
+    @staticmethod
+    def format_status(status: str) -> str | None:
         active_char = "⚙"  # U+2713 CHECK MARK
         done_char = "✔"  # U+2699 GEAR
         if status == Status.ACTIVE:
@@ -38,26 +39,34 @@ class TaskTemplate:
         elif status == Status.DONE:
             return f"[yellow]{done_char} Done[/yellow]"
 
+    @staticmethod
+    def format_tags(tags: list[str]) -> str:
+        _tags: list[str] = []
+        if tags:
+            for i in range(len(tags) - 1):
+                _tags.append(f"[bold]{tags[i]}, [/bold]")
+
+            _tags.append(f"[bold]{tags[-1]}[/bold]")
+
+        return "".join(_tags)
+
 
 class TaskList:
     def __init__(self) -> None:
         self.table = Table(box=box.SIMPLE, leading=1)
-
-        self.columns = {
-            "[bold yellow]ID[/bold yellow]": dict(
-                justify="left", width=None, style="yellow"
-            ),
-            "[blue]Created[/blue]": dict(
-                justify="left", width=None, style="blue"
-            ),
-            "Description": dict(justify="left", max_width=40),
-            "Priority": dict(justify="left", width=None),
-            "Tags": dict(justify="left", width=None),
-            "Status": dict(justify="left", width=None),
-        }
-
-        for column, args in self.columns.items():
-            self.table.add_column(column, **args)
+        self.table.add_column(
+            "[bold yellow]ID[/bold yellow]",
+            justify="left",
+            width=None,
+            style="yellow",
+        )
+        self.table.add_column(
+            "[blue]Created[/blue]", justify="left", width=None, style="blue"
+        )
+        self.table.add_column("Description", justify="left", max_width=40)
+        self.table.add_column("Priority", justify="left", width=None)
+        self.table.add_column("Tags", justify="left", max_width=20)
+        self.table.add_column("Status", justify="left", width=None)
 
     def add_rows(self, *tasks: TaskTemplate) -> None:
         for task in tasks:
