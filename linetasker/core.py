@@ -56,10 +56,7 @@ class Register:
 
             new_task = Task(id, description, priority, tags=tags)
 
-            self.db_dict["tasks"].append(
-                ntd := new_task.__dict__
-            )  # TODO: remove this walrus operator
-            logging.debug(f"Added: {ntd}")
+            self.db_dict["tasks"].append(new_task.__dict__)
 
     def rearrange_id(self) -> None:
         with self.update_db():
@@ -112,8 +109,6 @@ class Register:
             for i in range(n):
                 task_list.add_rows(TaskTemplate(**self.db_dict["tasks"][i]))
 
-        logging.debug("CALLED: core.Register.list_tasks %s", "")
-        logging.debug("n = %s", n)
         console.print(task_list.render())
 
     def get_done_tasks_ids(self) -> list[int]:
