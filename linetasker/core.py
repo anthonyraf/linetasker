@@ -1,6 +1,7 @@
 import os
 import json
 from typing import Any
+from collections.abc import Iterable
 from rich.console import Console
 from rich.prompt import Confirm
 from pathlib import Path
@@ -8,6 +9,7 @@ from contextlib import contextmanager
 
 from linetasker.task import Task, Status
 from linetasker.utils.prettier import TaskTemplate, TaskList
+from linetasker.utils.filter import Filter
 
 
 import logging
@@ -47,14 +49,16 @@ class Register:
         finally:
             self.db.write(self.db_dict)
 
-    def create_task(self, description, priority, tags: list[str]):
+    def create_task(self, description, priority, tags: Iterable[str]):
         """Create new task in the database"""
         with self.update_db():
             id = self.cursor
 
             new_task = Task(id, description, priority, tags=tags)
 
-            self.db_dict["tasks"].append(ntd := new_task.__dict__)
+            self.db_dict["tasks"].append(
+                ntd := new_task.__dict__
+            )  # TODO: remove this walrus operator
             logging.debug(f"Added: {ntd}")
 
     def rearrange_id(self) -> None:
@@ -90,16 +94,29 @@ class Register:
         """Show details about a tasks (creation date, hour, ...)"""
         pass
 
-    def list_tasks(self, n=None):
+    def list_tasks(self, n: int | None = None, _filter: Filter = None):
         task_list = TaskList()
 
-        for task in self.db_dict["tasks"]:
-            task_list.add_rows(TaskTemplate(**task))
+        if n is None or n > len(self.db_dict["tasks"]):
+            n = len(self.db_dict["tasks"])
 
-        logging.debug("CALLED: core.Register.list")
+        count = 0
+        if _filter:
+            for task in self.db_dict["tasks"]:
+                if count == n:
+                    break
+                if _filter.is_valid(task=task):
+                    count += 1
+                    task_list.add_rows(TaskTemplate(**task))
+        else:
+            for i in range(n):
+                task_list.add_rows(TaskTemplate(**self.db_dict["tasks"][i]))
+
+        logging.debug("CALLED: core.Register.list_tasks %s", "")
+        logging.debug("n = %s", n)
         console.print(task_list.render())
 
-    def get_done_tasks(self) -> list[int]:
+    def get_done_tasks_ids(self) -> list[int]:
         """Return a list of the id of all done tasks"""
         done_tasks = []
         for task in self.db_dict["tasks"]:
@@ -108,7 +125,7 @@ class Register:
         return done_tasks
 
     def clean(self) -> None:
-        self.delete_task(*self.get_done_tasks())
+        self.delete_task(*self.get_done_tasks_ids())
 
     def reset(self, bypass_flag: bool) -> None:
         # Confirmation prompt, yes by default

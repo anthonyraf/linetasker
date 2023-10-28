@@ -1,4 +1,5 @@
 from typing import NamedTuple
+from collections.abc import Iterable
 from datetime import datetime
 from dataclasses import dataclass, field, asdict
 
@@ -29,7 +30,7 @@ class Task:
         date=datetime.now().strftime(DATE_FORMAT),
         time=datetime.now().strftime(TIME_FORMAT),
     )
-    tags: list[str] = field(default_factory=list)
+    tags: Iterable[str] = field(default_factory=Iterable)
 
     def to_dict(self) -> dict:
         return asdict(self)
