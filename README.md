@@ -1,20 +1,48 @@
 # Line[Tasker]: A pretty and simple project-scope TODO list in command line.
 
-## Features:
-
-- Create new task:
+## I - Create a new task
 ```shell
-$ linetasker new "This is a task to do" -p 4
+$ linetasker new "Finish writing unit tests"
 ```
-> `-p` : Priority of the task
+### I.2 -  Priority and tags
+```shell
+$ linetasker new "Finish writing unit tests" -p 5 --tags urgent --tags production --tags CI
+```
+> `-p` / `--priority`: priority of the task 1 -> 5 [1 by default]
 
-- List tasks:
+> `-t`/ --`tags`: add tags to the task
+
+## II - List tasks
 ```shell
 $ linetasker list
 ```
+![Alt text](assets/list.png)
+### II.2 - Filtering
 
-![linetasker list](./imgs/list.png)
+```shell
+$ linetasker list -n 9 -t production
+```
+> `-n`: number of the tasks to display from the top
+> `-t`: filter by tags
+![Alt text](assets/list_filtered.png)
 
-- Mark task as done
+## III - Mark as done
+```shell
+$ linetasker done <ID>
+```
+> `ID`: integer
 
-- Delete a task
+## IV - Delete task(s)
+### IV.1 Delete one task
+```
+$ linetasker del <ID>
+```
+### IV.2 - Delete all done tasks
+```
+$ linetasker clean
+```
+### IV.3 - Clear all tasks
+```
+$ linetasker reset -y
+```
+> `-y`: flag for bypassing confirmation prompt
