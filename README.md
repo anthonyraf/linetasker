@@ -1,4 +1,8 @@
 # Line[Tasker]: A pretty and simple project-scope TODO list in command line.
+> [!Important]
+> You have to install a <a href="https://www.nerdfonts.com/">Nerd Font</a>
+ in order to display correctly some symbols
+
 
 ## I - Create a new task
 ```shell
