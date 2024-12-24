@@ -52,7 +52,7 @@ def new(
     tags: Annotated[
         list[str],
         typer.Option(
-            "--tags", "-t", help="Add tags to the task", show_default=False
+            "--tag", "-t", help="Add tags to the task", show_default=False
         ),
     ] = None,
     priority: Annotated[
