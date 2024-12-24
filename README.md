@@ -10,11 +10,11 @@ $ linetasker new "Finish writing unit tests"
 ```
 ### I.2 -  Priority and tags
 ```shell
-$ linetasker new "Finish writing unit tests" -p 5 --tags urgent --tags production --tags CI
+$ linetasker new "Finish writing unit tests" -p 5 --tag urgent --tag production --tag CI
 ```
 > `-p` / `--priority`: priority of the task 1 -> 5 [1 by default]
 
-> `-t`/ --`tags`: add tags to the task
+> `-t`/ --`tag`: add tags to the task
 
 ## II - List tasks
 ```shell
