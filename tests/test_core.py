@@ -91,3 +91,27 @@ class TestRegister:
 
     def test_register_is_created(self, register: Register):
         assert isinstance(register, Register)
+
+    def test_list_tasks_empty_shows_message(self, register: Register, capsys):
+        """Test that listing tasks with no tasks shows a default message"""
+        register.list_tasks()
+        captured = capsys.readouterr()
+        
+        # Should show a message instead of an empty table
+        assert "No tasks found" in captured.out
+        assert "Create a new task" in captured.out
+
+    def test_list_tasks_with_filter_no_matches_shows_message(self, register: Register, capsys):
+        """Test that listing tasks with filter that matches nothing shows a message"""
+        from linetasker.utils.filter import Filter
+        
+        # Add a task first
+        register.create_task("Test task", 1, ["test"])
+        
+        # Filter by a tag that doesn't exist
+        _filter = Filter(tags=["nonexistent"])
+        register.list_tasks(_filter=_filter)
+        captured = capsys.readouterr()
+        
+        # Should show a message instead of an empty table
+        assert "No tasks found matching the specified criteria" in captured.out

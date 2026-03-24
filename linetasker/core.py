@@ -109,7 +109,17 @@ class Register:
             for i in range(n):
                 task_list.add_rows(TaskTemplate(**self.db_dict["tasks"][i]))
 
-        console.print(task_list.render())
+        # Check if any tasks were added to the list
+        if count == 0 and _filter:
+            console.print(
+                "[yellow]No tasks found matching the specified criteria.[/yellow]"
+            )
+        elif n == 0:
+            console.print(
+                "[blue]No tasks found. Create a new task with 'linetasker new \"<task_description>\"'[/blue]"
+            )
+        else:
+            console.print(task_list.render())
 
     def get_done_tasks_ids(self) -> list[int]:
         """Return a list of the id of all done tasks"""

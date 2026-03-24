@@ -20,7 +20,7 @@ $ linetasker new "Finish writing unit tests" -p 5 --tags urgent --tags productio
 ```shell
 $ linetasker list
 ```
-![Alt text](assets/list.png)
+![List view](https://raw.githubusercontent.com/anthonyraf/linetasker/main/assets/list.png)
 ### II.2 - Filtering
 
 ```shell
@@ -28,7 +28,7 @@ $ linetasker list -n 9 -t production
 ```
 > `-n`: number of the tasks to display from the top
 > `-t`: filter by tags
-![Alt text](assets/list_filtered.png)
+![Filtered list view](https://raw.githubusercontent.com/anthonyraf/linetasker/main/assets/list_filtered.png)
 
 ## III - Mark as done
 ```shell
